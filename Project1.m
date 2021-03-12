@@ -5,7 +5,6 @@ clf
 G = 1;
 M = 1;
 
-x = [1, 2];
 
 %Variables
 rad = 1;
@@ -44,6 +43,7 @@ end
 
 plot(0,0, 'r*',xsave,ysave)
 axis equal
+axis([-2, 2, -2, 2])
 hold on;
 
 %ORBIT 2 ========================================================
@@ -51,8 +51,11 @@ hold on;
 x = 2 * rad;
 y = 0;
 u = 0;
-v = sqrt((G*M)/2 * rad);
-dt = (6 * pi)/ timeSteps;
+v = sqrt((G*M)/(2 * rad));
+dt = (5.673 * pi)/ timeSteps;
+
+xsave1 = zeros(1, timeSteps);
+ysave1 = zeros(1, timeSteps);
 for n = 1:timeSteps
    
     r = sqrt(x^2 + y^2);
@@ -61,19 +64,19 @@ for n = 1:timeSteps
     x = x + dt*u;
     y = y + dt*v;
     
-    xsave(n) = x;
-    ysave(n) = y;
+    xsave1(n) = x;
+    ysave1(n) = y;
     
     
 end
-
-plot(xsave,ysave)
+plot(xsave1, ysave1)
+outer = plot(xsave1(1),ysave1(1), '-o','MarkerFaceColor','red');
 
 %TRANSFER ORBIT =================================================
 x = -rad;
 y = 0;
 u = 0;
-dt = (pi * (3/2)^(3/2)) / timeSteps;
+dt = periodTrans([1, 2], G, M) / timeSteps;
 v = -(sqrt((G*M)/rad) + (sqrt(4/3)-1));
 for n = 1:timeSteps
    
@@ -88,9 +91,11 @@ for n = 1:timeSteps
     
     
 end
-plot(xsave,ysave)
+%plot(xsave,ysave)
 
 p = plot(x(1),y(1),'-o','MarkerFaceColor','red');
+hold on
+trail = plot(x(1), y(1), 'blue');
 
 
 for k = (2:length(xsave))
@@ -98,15 +103,15 @@ for k = (2:length(xsave))
     
         p.XData = xsave(k);
         p.YData = ysave(k);
+        trail.XData = xsave(1:k);
+        trail.YData = ysave(1:k);
+        outer.XData = xsave1(k);
+        outer.YData = ysave1(k);
         drawnow
     end
 end
 
-function period = periodTrans(x)
 
-   period  = (pi * (x(1) + x(2))^(3/2)) / sqrt(2 * G * M);
-
-end
 %{
 x = rad;
 y = 0;
