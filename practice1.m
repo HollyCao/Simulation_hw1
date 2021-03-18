@@ -77,7 +77,7 @@ set(0,'DefaultLegendAutoUpdate','off')
 
 %set(0,'DefaultLegendAutoUpdate','off')
 %Adds Title to Top
-title('Sattelite Transferring Orbits')
+title('Satelite Transferring Orbits')
 xlabel('DIstance From Orbiting Body') 
 ylabel('Distance From Orbiting Body')
 
